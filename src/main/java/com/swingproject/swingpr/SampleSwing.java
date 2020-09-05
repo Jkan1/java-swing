@@ -1,5 +1,6 @@
 package com.swingproject.swingpr;
 
+import java.awt.BorderLayout;
 import javax.swing.*;
 import java.awt.event.*;
 
@@ -7,41 +8,55 @@ import java.awt.event.*;
  *
  * @author kan
  */
-public class SampleSwing {
+public class SampleSwing implements ActionListener {
+
+    static final String CLICK_BUTTON = "Click";
+
+    private static ActionListener actionListener;
+    private static JFrame frame;
+    private static JTextField text1;
+    private static JButton b1;
+    private static JPanel panel;
+
+    private int trigger = 1;
 
     public static void main(String args[]) {
-        JFrame frame = new JFrame();
 
-        final JTextField tf = new JTextField(20);
-        tf.setBounds(50, 50, 150, 20);
-        tf.setText("Welcom To Swing App");
-        tf.setEditable(false);
-        JButton b1 = new JButton("Click!");
-        b1.setBounds(130, 100, 100, 40);
-        b1.addActionListener(new ActionListener() {
-            int trigger = 1;
+        actionListener = new SampleSwing();
 
-            public void actionPerformed(ActionEvent e) {
+        frame = new JFrame();
 
-                String s = e.getActionCommand();
-                System.out.println("Button Pressed : " + s);
-                if (trigger == 1) {
-                    tf.setText("Hello There!");
-                    trigger = 2;
-                } else {
-                    tf.setText("Welcom To Swing App");
-                    trigger = 1;
-                }
-            }
-        });
+        frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+        text1 = new JTextField(20);
+        text1.setBounds(100, 50, 200, 20);
+        text1.setText("Welcom To Swing App");
+        text1.setEditable(false);
 
-        JPanel panel = new JPanel();
+        b1 = new JButton(CLICK_BUTTON);
+        b1.setBounds(150, 100, 100, 40);
+        b1.addActionListener(actionListener);
 
         frame.add(b1);
-        frame.add(tf);
+        frame.add(text1);
 
         frame.setSize(400, 400);
         frame.setLayout(null);
         frame.setVisible(true);
+    }
+
+    @Override()
+    public void actionPerformed(ActionEvent e) {
+
+        String s = e.getActionCommand();
+        System.out.println("Button Pressed : " + s);
+        if (s.equals(CLICK_BUTTON)) {
+            if (trigger == 1) {
+                text1.setText("Hello There!");
+                trigger = 2;
+            } else {
+                text1.setText("Welcom To Swing App");
+                trigger = 1;
+            }
+        }
     }
 }
